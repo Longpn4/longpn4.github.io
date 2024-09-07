@@ -24,6 +24,7 @@
         var resultContainer = document.getElementById('qr-reader-results');
         var lastResult, countResults = 0;
         function onScanSuccess(decodedText, decodedResult) {
+            alert("thành công, có decodedText: "+ decodedText);
             if (decodedText !== lastResult) {
                 ++countResults;
                 lastResult = decodedText;
