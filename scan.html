@@ -13,7 +13,7 @@
             position: relative;
             width: 100%;
             max-width: 500px;
-            height: 300px;
+            height: 250px;
             margin-bottom: 20px;
             overflow: hidden; /* Đảm bảo không mở rộng khung */
         }
@@ -104,7 +104,7 @@
         // Cấu hình quét
         const config = {
             fps: 25,
-            qrbox: {width: 250, height: 250},
+            qrbox: 250, // Đảm bảo khung quét có kích thước 200x200
             supportedCodeTypes: [Html5QrcodeSupportedFormats.CODE_128]
         };
 
