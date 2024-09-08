@@ -7,8 +7,8 @@
     <script src="./html5-qrcode.min.js"></script>
     <style>
         #qr-reader {
-            width: 500px;
-            margin-bottom: 20px;
+            width: 100%;
+            margin-bottom: 30px;
         }
         table {
             width: 100%;
@@ -81,6 +81,7 @@
                     scannedCodes.push(decodedText);
                     scanMessage.innerText = `Scan thành công được mã: ${decodedText}`;
                     addScannedCodeToTable(decodedText);
+                    alert("scan code: "+decodedText);
                 }
             },
             (errorMessage) => {
