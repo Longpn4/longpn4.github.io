@@ -103,8 +103,8 @@
 
         // Cấu hình quét
         const config = {
-            fps: 30,
-            qrbox: 250, // Đảm bảo khung quét không mở rộng quá mức
+            fps: 25,
+            qrbox: {width: 250, height: 250},
             supportedCodeTypes: [Html5QrcodeSupportedFormats.CODE_128]
         };
 
