@@ -13,8 +13,9 @@
             position: relative;
             width: 100%;
             max-width: 500px;
-            height: 200px;
+            height: 300px;
             margin-bottom: 20px;
+            overflow: hidden; /* Đảm bảo không mở rộng khung */
         }
         
         #qr-reader {
@@ -49,6 +50,11 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+        }
+
+         /* Đảm bảo bố cục các thành phần phía dưới không bị che khuất */
+        #scan-button, #scan-message {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -98,6 +104,7 @@
         // Cấu hình quét
         const config = {
             fps: 30,
+            qrbox: 250, // Đảm bảo khung quét không mở rộng quá mức
             supportedCodeTypes: [Html5QrcodeSupportedFormats.CODE_128]
         };
 
