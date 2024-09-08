@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <style>
+        #qr-reader {
+            width: 500px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="qr-reader"></div>
+<button id="scan-button">Start Scan</button>
+<div id="scan-message"></div>
+<table id="scanned-codes">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Code</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+    let isScanning = false;
+    let scannedCodes = [];
+    const scanButton = document.getElementById('scan-button');
+    const scanMessage = document.getElementById('scan-message');
+    const scannedTable = document.getElementById('scanned-codes').getElementsByTagName('tbody')[0];
+
+    const html5QrCode = new Html5Qrcode("qr-reader");
+
+    scanButton.addEventListener('click', () => {
+        if (isScanning) {
+            stopScan();
+        } else {
+            startScan();
+        }
+    });
+
+    function startScan() {
+        scanButton.innerText = 'Stop Scan';
+        isScanning = true;
+        scanMessage.innerText = '';
+
+        // Cấu hình quét
+        const config = {
+            fps: 30,
+            supportedCodeTypes: [Html5QrcodeSupportedFormats.CODE_128]
+        };
+
+        html5QrCode.start(
+            { facingMode: "environment" }, // Quét camera sau
+            config,
+            (decodedText) => {
+                if (!scannedCodes.includes(decodedText)) {
+                    scannedCodes.push(decodedText);
+                    scanMessage.innerText = `Scan thành công được mã: ${decodedText}`;
+                    addScannedCodeToTable(decodedText);
+                }
+            },
+            (errorMessage) => {
+                // Xử lý lỗi nếu cần
+            })
+            .catch(err => {
+                console.error("Lỗi khởi động scan: ", err);
+            });
+    }
+
+    function stopScan() {
+        scanButton.innerText = 'Start Scan';
+        isScanning = false;
+
+        html5QrCode.stop().then(() => {
+            scanMessage.innerText = 'Đã dừng scan. Danh sách mã đã quét:';
+        }).catch(err => {
+            console.error("Lỗi dừng scan: ", err);
+        });
+    }
+
+    function addScannedCodeToTable(code) {
+        const newRow = scannedTable.insertRow();
+        const cell1 = newRow.insertCell(0);
+        const cell2 = newRow.insertCell(1);
+        cell1.innerText = scannedCodes.length; // STT
+        cell2.innerText = code; // Mã vạch đã quét
+    }
+</script>
+
+</body>
+</html>
